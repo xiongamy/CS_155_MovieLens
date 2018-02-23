@@ -75,7 +75,7 @@ def all_in_genre(all_data, genre):
                  'musical': 13, 'mystery': 14, 'romance': 15, 'sci-fi': 16,
                  'thriller': 17, 'war': 18, 'western': 19}
     cols = [0] + list(range(2, 21))
-    movie_data = np.loadtxt('data/movies.txt', delimiter='\t',
+    movie_data = np.loadtxt('../data/movies.txt', delimiter='\t',
                             usecols=cols).astype(int)
     
     # get the IDs of all the movies in the genre
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # The genre argument is the name of one of the 19 genres (see function
     # all_in_genre for the list of appropriate genres), and is
     # only used if [type] is 'genre'.
-    data = np.loadtxt('data/data.txt').astype(int)
+    data = np.loadtxt('../data/data.txt').astype(int)
     type = sys.argv[1]
     if type == 'all':
         all_movies(data)
