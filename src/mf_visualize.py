@@ -5,6 +5,10 @@ import sys
 MOVIES_FILE = '../data/movies.txt'
 DATA_FILE = '../data/data.txt'
     
+    
+def normalize(l):
+    return (np.array(l) - np.mean(l)) / np.std(l)
+    
 def dict_of_ratings(all_data):
     # create dictionary of ratings, where the key is the movie ID
     # and the value is a list of all the ratings
@@ -36,6 +40,10 @@ def most_popular(V):
         x.append(v[0])
         y.append(v[1])
         
+    # normalize coordinates
+    x = normalize(x)
+    y = normalize(y)
+        
     # plot
     plt.scatter(x, y)
     plt.title('10 most popular movies')
@@ -62,6 +70,10 @@ def best_movies(V):
         v = V[id]
         x.append(v[0])
         y.append(v[1])
+        
+    # normalize coordinates
+    x = normalize(x)
+    y = normalize(y)
         
     # plot
     plt.scatter(x, y)
@@ -90,6 +102,10 @@ def all_in_genre(V, genre):
         v = V[id]
         x.append(v[0])
         y.append(v[1])
+        
+    # normalize coordinates
+    x = normalize(x)
+    y = normalize(y)
         
     # plot
     plt.scatter(x, y)

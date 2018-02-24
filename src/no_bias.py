@@ -1,4 +1,9 @@
+
+import matplotlib
+matplotlib.use('Agg')
+    
 import numpy as np
+import matplotlib.pyplot as plt
 
 def grad_U(Ui, Yij, Vj, reg, eta):
     """
@@ -86,41 +91,25 @@ def train_model(M, N, K, eta, reg, Y, eps=0.0001, max_epochs=300):
         err = new_err
     
     return U, V, err
-
-import matplotlib
-matplotlib.use('Agg')
-    
-import matplotlib.pyplot as plt
-		
+        
 def main():
-    Y_train = np.loadtxt('data/train.txt').astype(int)
-    Y_test = np.loadtxt('data/test.txt')	.astype(int)
+    Y_train = np.loadtxt('../data/train.txt').astype(int)
+    Y_test = np.loadtxt('../data/test.txt')	.astype(int)
 	
     M = max(max(Y_train[:,0]), max(Y_test[:,0])).astype(int) # users
     N = max(max(Y_train[:,1]), max(Y_test[:,1])).astype(int) # movies
     print("Factorizing with ", M, " users, ", N, " movies.")
     K = 20
 	
-    regs = [-3, -2, -1, 0, 1, 2, 3]
+    reg = 1.
     eta = 0.03 # learning rate
     E_in = []
     E_out = []
 	
     # Use to compute Ein and Eout
-    for r in regs:
-        reg = 10. ** r
-        U,V, err = train_model(M, N, K, eta, reg, Y_train)
-        E_in.append(err)
-        E_out.append(get_err(U, V, Y_test))
-	
-    
-    plt.plot(regs, E_in, label='$E_{in}$')
-    plt.plot(regs, E_out, label='$E_{out}$')
-    plt.title('Error vs. Reg')
-    plt.xlabel('Reg')
-    plt.ylabel('Error')
-    plt.legend()
-    plt.savefig('reg_err.png')	
+    U,V, err = train_model(M, N, K, eta, reg, Y_train)
+    E_in.append(err)
+    E_out.append(get_err(U, V, Y_test))
 
   
 
