@@ -127,6 +127,35 @@ def all_in_genre(V, genre):
     plt.scatter(x, y)
     plt.title('All ' + genre + ' movies')
     plt.show()
+
+def handpicked(V):
+    movie_names = np.loadtxt(MOVIES_FILE, delimiter='\t', dtype='str',
+                             usecols=[1])
+            
+    # get x and y values for the 10 most popular movies
+    x = []
+    y = []
+    for i in [8, 32, 42, 57, 129, 149, 234, 263, 273, 1242]:
+        id = sorted_ids[i - 1]
+        v = V[id]
+        x.append(v[0])
+        y.append(v[1])
+        
+    # normalize coordinates
+    x = normalize(x)
+    y = normalize(y)
+        
+    # plot
+    plt.scatter(x, y)
+    for i in range(10):
+        id = sorted_ids[i]
+        name = movie_names[id - 1]
+        plt.annotate(name, xy=(x[i], y[i]), xytext=(-25, 5), textcoords='offset points',
+                     fontsize=8,
+                     bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.5))
+    
+    plt.title('10 handpicked movies')
+    plt.show()
     
 if __name__ == "__main__":
     # usage: mf_visualize.py [filename] [type] [opt: genre].
@@ -143,4 +172,6 @@ if __name__ == "__main__":
         best_movies(V)
     elif type == 'genre':
         all_in_genre(V, sys.argv[3])
+    elif type == 'handpicked':
+        handpicked(V)
     
