@@ -51,7 +51,7 @@ def get_err(U, V, Y, reg=0.0):
     
     return (reg_err + err) / len(Y)
 
-def export_tilde_V(M, N, K, eta, reg, Y, filename='../results/v_no_bias.csv', eps=0.0001, max_epochs=300):
+def train_and_export_tilde_V(M, N, K, eta, reg, Y, filename='../results/v_no_bias.csv', eps=0.0001, max_epochs=300):
     """
     Given a training data matrix Y containing rows (i, j, Y_ij)
     where Y_ij is user i's rating on movie j, learns an
@@ -94,6 +94,7 @@ def export_tilde_V(M, N, K, eta, reg, Y, filename='../results/v_no_bias.csv', ep
     tildeV = np.matmul(V, A[:, :2])
     
     np.savetxt(filename, tildeV, delimiter=',',comments='')
+    return U, V
         
 def main():
     Y_train = np.loadtxt('../data/train.txt').astype(int)
@@ -106,11 +107,13 @@ def main():
 	
     reg = 1.
     eta = 0.03 # learning rate
-    E_in = []
-    E_out = []
 	
-    export_tilde_V(M, N, K, eta, reg, Y_train)
-
+    U, V = train_and_export_tilde_V(M, N, K, eta, reg, Y_train)
+    e_in = get_err(U, V, Y_train)
+    e_out = get_err(U, V, Y_test)
+    print('e_in:', e_in)
+    print('e_out:', e_out)
+    
   
 
 if __name__ == "__main__":
