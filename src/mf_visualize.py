@@ -5,7 +5,6 @@ import sys
 MOVIES_FILE = '../data/movies.txt'
 DATA_FILE = '../data/data.txt'
     
-    
 def normalize(l):
     return (np.array(l) - np.mean(l)) / np.std(l)
     
@@ -25,6 +24,8 @@ def dict_of_ratings(all_data):
     
 def most_popular(V):
     m_ratings = dict_of_ratings(np.loadtxt(DATA_FILE).astype(int))
+    movie_names = np.loadtxt(MOVIES_FILE, delimiter='\t', dtype='str',
+                             usecols=[1])
             
     # sort dictionary of ratings by the number of ratings each movie has
     sorted_ratings = sorted(m_ratings.items(), key=lambda x: len(x[1]),
@@ -46,6 +47,13 @@ def most_popular(V):
         
     # plot
     plt.scatter(x, y)
+    for i in range(10):
+        id = sorted_ids[i]
+        name = movie_names[id - 1]
+        plt.annotate(name, xy=(x[i], y[i]), xytext=(-25, 5), textcoords='offset points',
+                     fontsize=8,
+                     bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.5))
+    
     plt.title('10 most popular movies')
     plt.show()
     
@@ -55,6 +63,8 @@ def average_rating(ratings):
     
 def best_movies(V):
     m_ratings = dict_of_ratings(np.loadtxt(DATA_FILE).astype(int))
+    movie_names = np.loadtxt(MOVIES_FILE, delimiter='\t', dtype='str',
+                             usecols=[1])
     
     # sort dictionary of ratings by each movie's average rating
     sorted_ratings = sorted(m_ratings.items(),
@@ -77,6 +87,13 @@ def best_movies(V):
         
     # plot
     plt.scatter(x, y)
+    for i in range(10):
+        id = sorted_ids[i]
+        name = movie_names[id - 1]
+        plt.annotate(name, xy=(x[i], y[i]), xytext=(-25, 5), textcoords='offset points',
+                     fontsize=8,
+                     bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.5))
+                     
     plt.title('10 best movies')
     plt.show()
     
@@ -97,8 +114,7 @@ def all_in_genre(V, genre):
     # get x and y values for all the movies in the genre
     x = []
     y = []
-    for i in range(10):
-        id = filtered_movies[i]
+    for id in filtered_movies:
         v = V[id]
         x.append(v[0])
         y.append(v[1])
@@ -114,6 +130,7 @@ def all_in_genre(V, genre):
     
 if __name__ == "__main__":
     # usage: mf_visualize.py [filename] [type] [opt: genre].
+    # V is imported from [filename]
     # [type] is one of 'popular', 'best', 'genre'.
     # The genre argument is the name of one of the 19 genres (see function
     # all_in_genre for the list of appropriate genres), and is
