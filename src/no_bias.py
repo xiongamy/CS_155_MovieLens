@@ -51,7 +51,7 @@ def get_err(U, V, Y, reg=0.0):
     
     return (reg_err + err) / len(Y)
 
-def train_model(M, N, K, eta, reg, Y, eps=0.0001, max_epochs=300):
+def export_tilde_V(M, N, K, eta, reg, Y, filename='../results/v_no_bias.csv', eps=0.0001, max_epochs=300):
     """
     Given a training data matrix Y containing rows (i, j, Y_ij)
     where Y_ij is user i's rating on movie j, learns an
@@ -90,7 +90,10 @@ def train_model(M, N, K, eta, reg, Y, eps=0.0001, max_epochs=300):
                 break
         err = new_err
     
-    return U, V, err
+    A, _, _ = np.linalg.svd(np.transpose(V))
+    tildeV = np.matmul(V, A[:, :2])
+    
+    np.savetxt(filename, tildeV, delimiter=',',comments='')
         
 def main():
     Y_train = np.loadtxt('../data/train.txt').astype(int)
@@ -106,10 +109,7 @@ def main():
     E_in = []
     E_out = []
 	
-    # Use to compute Ein and Eout
-    U,V, err = train_model(M, N, K, eta, reg, Y_train)
-    E_in.append(err)
-    E_out.append(get_err(U, V, Y_test))
+    export_tilde_V(M, N, K, eta, reg, Y_train)
 
   
 
