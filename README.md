@@ -1,2 +1,3 @@
 # CS_155_MovieLens
-hewwo...it me
+
+Please note that the graphlab code is written for Python 2.7, since graphlab is only compatible with Python 2.7.

@@ -131,12 +131,13 @@ def all_in_genre(V, genre):
 def handpicked(V):
     movie_names = np.loadtxt(MOVIES_FILE, delimiter='\t', dtype='str',
                              usecols=[1])
-            
-    # get x and y values for the 10 most popular movies
+                             
+    movie_ids = [8, 32, 42, 57, 129, 149, 234, 263, 273, 1242]
+    
+    # get x and y values for the 10 handpicked movies
     x = []
     y = []
-    for i in [8, 32, 42, 57, 129, 149, 234, 263, 273, 1242]:
-        id = sorted_ids[i - 1]
+    for id in movie_ids:
         v = V[id]
         x.append(v[0])
         y.append(v[1])
@@ -148,7 +149,7 @@ def handpicked(V):
     # plot
     plt.scatter(x, y)
     for i in range(10):
-        id = sorted_ids[i]
+        id = movie_ids[i]
         name = movie_names[id - 1]
         plt.annotate(name, xy=(x[i], y[i]), xytext=(-25, 5), textcoords='offset points',
                      fontsize=8,
@@ -160,7 +161,7 @@ def handpicked(V):
 if __name__ == "__main__":
     # usage: mf_visualize.py [filename] [type] [opt: genre].
     # V is imported from [filename]
-    # [type] is one of 'popular', 'best', 'genre'.
+    # [type] is one of 'popular', 'best', 'genre', 'handpicked'.
     # The genre argument is the name of one of the 19 genres (see function
     # all_in_genre for the list of appropriate genres), and is
     # only used if [type] is 'genre'.
