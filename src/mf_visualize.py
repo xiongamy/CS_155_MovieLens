@@ -1,6 +1,3 @@
-import matplotlib
-matplotlib.use('Agg')
-
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -58,7 +55,7 @@ def most_popular(V):
                      bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.5))
     
     plt.title('10 most popular movies')
-    plt.savefig('../images/no_bias_popular.png')
+    plt.show()
     
 def average_rating(ratings):
     # computes the average of the list of ratings
@@ -98,7 +95,7 @@ def best_movies(V):
                      bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.5))
                      
     plt.title('10 best movies')
-    plt.savefig('../images/no_bias_popular.png')
+    plt.show()
     
 def all_in_genre(V, genre):
     genre_ids = {'unknown': 1, 'action': 2, 'adventure': 3, 'animation': 4,
@@ -129,7 +126,7 @@ def all_in_genre(V, genre):
     # plot
     plt.scatter(x, y)
     plt.title('All ' + genre + ' movies')
-    plt.savefig('../images/no_bias_' + genre + '.png')
+    plt.show()
     
 if __name__ == "__main__":
     # usage: mf_visualize.py [filename] [type] [opt: genre].
